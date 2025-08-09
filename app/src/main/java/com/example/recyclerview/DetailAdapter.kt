@@ -1,4 +1,4 @@
-package com.example.recyclerview.adapter
+package com.example.recyclerview.detail
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,13 +6,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.recyclerview.R
 
-class ImageAdapter(
-    private val images: List<String>,
-    private val onClick: (String) -> Unit
-) : RecyclerView.Adapter<ImageAdapter.VH>() {
+class DetailAdapter(private val urls: List<String>) :
+    RecyclerView.Adapter<DetailAdapter.VH>() {
 
     class VH(v: View) : RecyclerView.ViewHolder(v) {
         val image: ImageView = v.findViewById(R.id.imageView)
@@ -20,22 +17,18 @@ class ImageAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val v = LayoutInflater.from(parent.context)
-            .inflate(R.layout.image_item, parent, false)
+            .inflate(R.layout.item_fullscreen_image, parent, false)
         return VH(v)
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        val url = images[position]
         Glide.with(holder.itemView)
-            .load(url)
-            .centerCrop()
+            .load(urls[position])
+            .fitCenter()
             .placeholder(R.drawable.ic_launcher_background)
             .error(R.drawable.ic_launcher_foreground)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(holder.image)
-
-        holder.itemView.setOnClickListener { onClick(url) }
     }
 
-    override fun getItemCount() = images.size
+    override fun getItemCount() = urls.size
 }

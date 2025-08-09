@@ -65,6 +65,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     kapt("com.github.bumptech.glide:compiler:4.16.0")
     implementation("com.google.android.material:material:1.12.0")
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
 
 
 

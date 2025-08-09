@@ -1,13 +1,14 @@
 package com.example.recyclerview
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recyclerview.adapter.ImageAdapter
+import com.example.recyclerview.detail.DetailActivity
 
 class MainActivity : AppCompatActivity() {
-
 
     private val imageUrls = listOf(
         "https://picsum.photos/id/10/800/800",
@@ -29,10 +30,11 @@ class MainActivity : AppCompatActivity() {
         val rv = findViewById<RecyclerView>(R.id.recyclerView)
         rv.layoutManager = GridLayoutManager(this, 2)
         rv.setHasFixedSize(true)
-
         rv.adapter = ImageAdapter(imageUrls) { clickedUrl ->
-            Toast.makeText(this, "Tıklandı: $clickedUrl", Toast.LENGTH_SHORT).show()
+            val i = Intent(this, DetailActivity::class.java)
+            i.putStringArrayListExtra("images", ArrayList(imageUrls))
+            i.putExtra("position", imageUrls.indexOf(clickedUrl))
+            startActivity(i)
         }
     }
 }
-
