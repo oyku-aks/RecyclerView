@@ -1,41 +1,35 @@
-package com.example.recyclerview.adapter
+package com.example.recyclerview
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.example.recyclerview.R
+import com.example.recyclerview.databinding.ItemImageBinding
 
 class ImageAdapter(
     private val images: List<String>,
-    private val onClick: (String) -> Unit
+    private val onItemClick: (String) -> Unit
 ) : RecyclerView.Adapter<ImageAdapter.VH>() {
 
-    class VH(v: View) : RecyclerView.ViewHolder(v) {
-        val image: ImageView = v.findViewById(R.id.imageView)
+    inner class VH(val binding: ItemImageBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(url: String) {
+            Glide.with(binding.root.context)
+                .load(url)
+                .centerCrop()
+                .into(binding.imageView)
+
+            binding.root.setOnClickListener { onItemClick(url) }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val v = LayoutInflater.from(parent.context)
-            .inflate(R.layout.image_item, parent, false)
-        return VH(v)
+        val binding = ItemImageBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+        return VH(binding)
     }
 
-    override fun onBindViewHolder(holder: VH, position: Int) {
-        val url = images[position]
-        Glide.with(holder.itemView)
-            .load(url)
-            .centerCrop()
-            .placeholder(R.drawable.ic_launcher_background)
-            .error(R.drawable.ic_launcher_foreground)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(holder.image)
-
-        holder.itemView.setOnClickListener { onClick(url) }
-    }
+    override fun onBindViewHolder(holder: VH, position: Int) = holder.bind(images[position])
 
     override fun getItemCount() = images.size
 }

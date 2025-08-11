@@ -1,34 +1,36 @@
-package com.example.recyclerview.detail
+package com.example.recyclerview
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.recyclerview.R
+import com.example.recyclerview.databinding.ItemFullscreenImageBinding
 
-class DetailAdapter(private val urls: List<String>) :
-    RecyclerView.Adapter<DetailAdapter.VH>() {
+class DetailAdapter(private val imageList: List<String>) :
+    RecyclerView.Adapter<DetailAdapter.ImageViewHolder>() {
 
-    class VH(v: View) : RecyclerView.ViewHolder(v) {
-        val image: ImageView = v.findViewById(R.id.imageView)
+    inner class ImageViewHolder(val binding: ItemFullscreenImageBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(imageUrl: String) {
+            Glide.with(binding.root.context)
+                .load(imageUrl)
+                .into(binding.fullscreenImageView)
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val v = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_fullscreen_image, parent, false)
-        return VH(v)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+        val binding = ItemFullscreenImageBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return ImageViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: VH, position: Int) {
-        Glide.with(holder.itemView)
-            .load(urls[position])
-            .fitCenter()
-            .placeholder(R.drawable.ic_launcher_background)
-            .error(R.drawable.ic_launcher_foreground)
-            .into(holder.image)
+    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+        holder.bind(imageList[position])
     }
 
-    override fun getItemCount() = urls.size
+    override fun getItemCount(): Int = imageList.size
 }
