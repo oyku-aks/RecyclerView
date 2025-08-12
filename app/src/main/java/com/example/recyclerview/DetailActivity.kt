@@ -1,41 +1,39 @@
-package com.example.recyclerview
+package com.example.recyclerview.detail
 
 import android.os.Bundle
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
-import com.example.recyclerview.databinding.ActivityDetailBinding
+import androidx.viewpager2.widget.ViewPager2
+import com.example.recyclerview.R
 
 class DetailActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityDetailBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_detail)
+
+        val viewPager: ViewPager2 = findViewById(R.id.viewPager)
+        val closeBtn: ImageButton = findViewById(R.id.closeBtn)
+        val nextBtn: ImageButton = findViewById(R.id.nextBtn)
+        val prevBtn: ImageButton = findViewById(R.id.prevBtn)
 
         val images = intent.getStringArrayListExtra("images") ?: arrayListOf()
-        val position = intent.getIntExtra("position", 0)
+        val startPosition = intent.getIntExtra("position", 0)
 
         val adapter = DetailAdapter(images)
-        binding.viewPager.adapter = adapter
-        binding.viewPager.setCurrentItem(position, false)
+        viewPager.adapter = adapter
+        viewPager.setCurrentItem(startPosition, false)
 
-        binding.closeBtn.setOnClickListener {
-            finish()
+        closeBtn.setOnClickListener { finish() }
+
+        nextBtn.setOnClickListener {
+            val next = viewPager.currentItem + 1
+            if (next < images.size) viewPager.setCurrentItem(next, true)
         }
 
-        binding.nextBtn.setOnClickListener {
-            val nextItem = binding.viewPager.currentItem + 1
-            if (nextItem < images.size) {
-                binding.viewPager.setCurrentItem(nextItem, true)
-            }
-        }
-
-        binding.prevBtn.setOnClickListener {
-            val prevItem = binding.viewPager.currentItem - 1
-            if (prevItem >= 0) {
-                binding.viewPager.setCurrentItem(prevItem, true)
-            }
+        prevBtn.setOnClickListener {
+            val prev = viewPager.currentItem - 1
+            if (prev >= 0) viewPager.setCurrentItem(prev, true)
         }
     }
 }

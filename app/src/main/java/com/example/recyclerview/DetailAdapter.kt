@@ -1,36 +1,32 @@
-package com.example.recyclerview
+package com.example.recyclerview.detail
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.recyclerview.databinding.ItemFullscreenImageBinding
+import com.example.recyclerview.R
 
-class DetailAdapter(private val imageList: List<String>) :
-    RecyclerView.Adapter<DetailAdapter.ImageViewHolder>() {
+class DetailAdapter(private val images: List<String>) :
+    RecyclerView.Adapter<DetailAdapter.VH>() {
 
-    inner class ImageViewHolder(val binding: ItemFullscreenImageBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(imageUrl: String) {
-            Glide.with(binding.root.context)
-                .load(imageUrl)
-                .into(binding.fullscreenImageView)
-        }
+    inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val image: ImageView = itemView.findViewById(R.id.imageView) // XML ile aynı id
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val binding = ItemFullscreenImageBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return ImageViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+        val v = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_fullscreen_image, parent, false)
+        return VH(v)
     }
 
-    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        holder.bind(imageList[position])
+    override fun onBindViewHolder(holder: VH, position: Int) {
+        Glide.with(holder.itemView)
+            .load(images[position])
+            .fitCenter()
+            .into(holder.image)
     }
 
-    override fun getItemCount(): Int = imageList.size
+    override fun getItemCount(): Int = images.size
 }

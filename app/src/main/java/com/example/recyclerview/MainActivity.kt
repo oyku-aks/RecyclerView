@@ -3,16 +3,14 @@ package com.example.recyclerview
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
-import com.example.recyclerview.databinding.ActivityMainBinding
+import com.example.recyclerview.detail.DetailActivity
+import com.example.recyclerview.ui.ImageGridView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var adapter: ImageAdapter
+    private lateinit var grid: ImageGridView
 
-
-    private val imageList = listOf(
+    private val imageUrls = listOf(
         "https://picsum.photos/id/10/800/800",
         "https://picsum.photos/id/20/800/800",
         "https://picsum.photos/id/30/800/800",
@@ -27,18 +25,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
 
-        adapter = ImageAdapter(imageList) { clickedUrl ->
-            val intent = Intent(this, DetailActivity::class.java)
-            intent.putStringArrayListExtra("images", ArrayList(imageList)) // DetailActivity ile uyumlu
-            intent.putExtra("position", imageList.indexOf(clickedUrl))
-            startActivity(intent)
+        grid = findViewById(R.id.imageGrid)
+        grid.setImages(imageUrls)
+
+        grid.setOnImageClickListener { _, absoluteIndex ->
+            val i = Intent(this, DetailActivity::class.java)
+            i.putStringArrayListExtra("images", ArrayList(imageUrls))
+            i.putExtra("position", absoluteIndex)
+            startActivity(i)
         }
-
-        binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
-        binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.adapter = adapter
     }
 }
