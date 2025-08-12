@@ -3,13 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- ViewPager2 tam ekran görüntü -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- Kapatma butonu sağ üstte -->
     <ImageButton
         android:id="@+id/closeBtn"
         android:layout_width="48dp"
@@ -19,39 +17,31 @@
         android:layout_margin="16dp"
         android:background="@android:color/transparent"
         android:src="@drawable/baseline_close_24"
-        android:contentDescription="@string/close"
         android:tint="@android:color/white"
-        android:padding="8dp"
-        android:elevation="8dp" />
+        android:contentDescription="@string/close" />
 
-    <!-- Önceki buton -->
     <ImageButton
         android:id="@+id/prevBtn"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="12dp"
         android:background="@android:color/transparent"
         android:src="@drawable/outline_arrow_left_24"
-        android:contentDescription="@string/prev"
         android:tint="@android:color/white"
-        android:padding="8dp"
-        android:elevation="8dp" />
+        android:contentDescription="@string/prev" />
 
-    <!-- Sonraki buton -->
     <ImageButton
         android:id="@+id/nextBtn"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="12dp"
         android:background="@android:color/transparent"
         android:src="@drawable/outline_arrow_right_24"
-        android:contentDescription="@string/next"
         android:tint="@android:color/white"
-        android:padding="8dp"
-        android:elevation="8dp" />
+        android:contentDescription="@string/next" />
 
 </RelativeLayout>

@@ -8,32 +8,32 @@ import com.example.recyclerview.R
 
 class DetailActivity : AppCompatActivity() {
 
+    private lateinit var viewPager: ViewPager2
+    private lateinit var nextBtn: ImageButton
+    private lateinit var prevBtn: ImageButton
+    private lateinit var closeBtn: ImageButton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        val viewPager: ViewPager2 = findViewById(R.id.viewPager)
-        val closeBtn: ImageButton = findViewById(R.id.closeBtn)
-        val nextBtn: ImageButton = findViewById(R.id.nextBtn)
-        val prevBtn: ImageButton = findViewById(R.id.prevBtn)
-
         val images = intent.getStringArrayListExtra("images") ?: arrayListOf()
-        val startPosition = intent.getIntExtra("position", 0)
+        val startPos = intent.getIntExtra("position", 0)
 
-        val adapter = DetailAdapter(images)
-        viewPager.adapter = adapter
-        viewPager.setCurrentItem(startPosition, false)
+        viewPager = findViewById(R.id.viewPager)
+        nextBtn = findViewById(R.id.nextBtn)
+        prevBtn = findViewById(R.id.prevBtn)
+        closeBtn = findViewById(R.id.closeBtn)
 
-        closeBtn.setOnClickListener { finish() }
+        viewPager.adapter = DetailAdapter(images)
+        viewPager.setCurrentItem(startPos, false)
 
         nextBtn.setOnClickListener {
-            val next = viewPager.currentItem + 1
-            if (next < images.size) viewPager.setCurrentItem(next, true)
+            viewPager.setCurrentItem(viewPager.currentItem + 1, true)
         }
-
         prevBtn.setOnClickListener {
-            val prev = viewPager.currentItem - 1
-            if (prev >= 0) viewPager.setCurrentItem(prev, true)
+            viewPager.setCurrentItem(viewPager.currentItem - 1, true)
         }
+        closeBtn.setOnClickListener { finish() }
     }
 }
