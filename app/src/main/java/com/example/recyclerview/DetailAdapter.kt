@@ -18,7 +18,7 @@ class DetailAdapter(
     inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val imageView: ImageView = itemView.findViewById(R.id.fullscreenImageView)
         private val handler = Handler(Looper.getMainLooper())
-        private var impressionFired = false
+        private var impressionFired = false // reset
 
         private val impressionRunnable = Runnable {
             println("impression")
@@ -33,7 +33,7 @@ class DetailAdapter(
         private fun startTimer() {
             impressionFired = false
             handler.removeCallbacks(impressionRunnable)
-            handler.postDelayed(impressionRunnable, 10_000) // 10 saniye sonra impression
+            handler.postDelayed(impressionRunnable, 10_000) // 10 sn sonra impression
         }
 
         fun cancelIfLate() {
